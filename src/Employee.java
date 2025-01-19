@@ -1,4 +1,4 @@
-public abstract class Employee {
+public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee {
     private String name;
     private EmployeeLevel level;
     private Salary salary;
