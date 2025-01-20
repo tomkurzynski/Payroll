@@ -4,7 +4,7 @@ public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee
     private Salary salary;
 
     protected Employee(String name, EmployeeLevel level, Salary salary) throws InsufficientDataException {
-        if (name == null || name.trim().equals("") || name.isBlank()) {
+        if (name == null || name.trim().isEmpty() || name.isBlank()) {
             throw new InsufficientDataException("Employee name is missing");
         }
         if (salary == null) {
@@ -35,6 +35,12 @@ public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee
             case MID -> salary.getBaseSalary() * 0.1;
             case SENIOR -> salary.getBaseSalary() * 0.15;
         };
+    }
+
+    //overloaded calculateBonus
+    public double calculateBonus(double performanceIncrease) {
+        double baseBonus = this.calculateBonus();
+        return baseBonus * performanceIncrease;
     }
 
     @Override
