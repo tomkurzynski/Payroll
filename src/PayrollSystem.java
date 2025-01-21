@@ -1,6 +1,13 @@
 public class PayrollSystem {
     public static void main(String[] args) {
 
+        //TODO:
+        //TODO: ADD INTERACTIVE MENU ALLOWING THE USER TO ADD/DISPLAY/ETC
+        //TODO: ADD, DISPLAY ALL, FILTER BY SALARY, SORT BY NAME, EXIT
+        //TODO: CREATE AN INTERFACE -> TAX INFO + METHODS TO CALCULATE TAX DUE (20% & 40%)
+        //TODO: GENERATE PAYSLIP METHOD
+        //TODO: RECORDS???
+
         EmployeeManager manager = new EmployeeManager();
 
         try {
@@ -18,6 +25,11 @@ public class PayrollSystem {
 
             //add employees
             manager.addEmployees(e1, e2, e3, e4, e5, e6, e7, e8, e9);
+
+            //using pattern match
+            System.out.println("Printing employee details");
+            manager.printEmployeeDetails(e1);
+            manager.printEmployeeDetails(e2);
 
             //filter by salary
             var filteredEmployees = manager.filterEmployeesBySalary(65000, 70000);

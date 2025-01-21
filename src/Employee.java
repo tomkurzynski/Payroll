@@ -1,8 +1,9 @@
 public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee {
     private String name;
     private EmployeeLevel level;
-    private Salary salary;
+    private Salary salary; //immutable type
 
+    //constructor
     protected Employee(String name, EmployeeLevel level, Salary salary) throws InsufficientDataException {
         if (name == null || name.trim().isEmpty() || name.isBlank()) {
             throw new InsufficientDataException("Employee name is missing");
@@ -15,6 +16,7 @@ public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee
         this.salary = salary;
     }
 
+    //getters
     public String getName() {
         return name;
     }
@@ -27,6 +29,7 @@ public sealed abstract class Employee permits FullTimeEmployee, PartTimeEmployee
         return salary;
     }
 
+    //abstract method
     public abstract double calculateMonthlyPay();
 
     public double calculateBonus() {
