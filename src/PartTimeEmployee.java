@@ -1,4 +1,4 @@
-public final class PartTimeEmployee extends Employee {
+public final class PartTimeEmployee extends Employee implements Taxable{
 
     private int hoursWorked;
 
@@ -10,5 +10,14 @@ public final class PartTimeEmployee extends Employee {
     @Override
     public double calculateMonthlyPay() {
         return getSalary().getBaseHourlyRate() * hoursWorked;
+    }
+
+    @Override
+    public double calculateTax() {
+        var monthlyPay = calculateMonthlyPay();
+        if (monthlyPay < 1000)
+            return monthlyPay * getLowerTaxRate();
+        else
+            return monthlyPay * getHigherTaxRate();
     }
 }

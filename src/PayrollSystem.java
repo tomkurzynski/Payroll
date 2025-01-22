@@ -1,4 +1,10 @@
+import java.util.Scanner;
+
 public class PayrollSystem {
+
+    private static final EmployeeManager employeeManager = new EmployeeManager();
+    private static final Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
 
         //TODO:
@@ -7,6 +13,29 @@ public class PayrollSystem {
         //TODO: CREATE AN INTERFACE -> TAX INFO + METHODS TO CALCULATE TAX DUE (20% & 40%)
         //TODO: GENERATE PAYSLIP METHOD
         //TODO: RECORDS???
+
+        System.out.println("Welcome to Payroll System!");
+
+        boolean quit = false;
+
+        while (!quit) {
+            printMenu();
+            int choice = getChoice();
+
+            switch (choice) {
+                case 1 -> addEmployee();
+                case 2 -> displayAllEmployees();
+                case 3 -> generatePayslip();
+                case 4 -> filterEmployeesBySalary();
+                case 5 -> sortEmployeesByName();
+                case 6 -> {
+                    System.out.println("Closing the program...");
+                    quit = true;
+                }
+                default -> System.out.println("Invalid choice. Try again.");
+            }
+        }
+
 
         EmployeeManager manager = new EmployeeManager();
 
@@ -48,6 +77,44 @@ public class PayrollSystem {
         } catch (InsufficientDataException ex) {
             System.out.println("Error creating employee" + ex.getMessage());
         }
+
+    }
+
+    private static void printMenu() {
+        System.out.println("\n--- Menu ---\n");
+        System.out.println("1. Add Employee");
+        System.out.println("2. Display All Employees");
+        System.out.println("3. Generate Payslip");
+        System.out.println("4. Filter Employees by Salary");
+        System.out.println("5. Sort Employees");
+        System.out.println("6. Exit");
+        System.out.println("Enter your choice: ");
+    }
+
+    private static int getChoice() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid choice, please try again");
+            return -1;
+        }
+    }
+
+    private static void addEmployee() {
+
+    }
+
+    private static void displayAllEmployees() {
+
+    }
+
+    private static void generatePayslip() {
+
+    }
+    private static void filterEmployeesBySalary() {
+
+    }
+    private static void sortEmployeesByName() {
 
     }
 }
