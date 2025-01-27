@@ -36,6 +36,15 @@ public class EmployeeManager {
         return e1.getName().compareToIgnoreCase(e2.getName());
     }
 
+    public List<PayslipRecord> generatePayslips() {
+        var paySlips = new ArrayList<PayslipRecord>();
+        for (var employee : employees) {
+            double monthlyPay = employee.calculateMonthlyPay();
+            paySlips.add(new PayslipRecord(employee.getName(), monthlyPay, java.time.LocalDate.now()));
+        }
+        return Collections.unmodifiableList(paySlips);
+    }
+
     //pattern matching
     public void printEmployeeDetails(Employee employee) {
         if (employee instanceof FullTimeEmployee fte) {

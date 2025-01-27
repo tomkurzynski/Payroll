@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class PayrollSystem {
@@ -60,17 +61,9 @@ public class PayrollSystem {
             manager.printEmployeeDetails(e1);
             manager.printEmployeeDetails(e2);
 
-            //filter by salary
-            var filteredEmployees = manager.filterEmployeesBySalary(65000, 70000);
-            System.out.println("Filtered employees:");
-            filteredEmployees.forEach(System.out::println);
 
-            //sort by name
-            var sortedEmployees = manager.sortEmployeesByName();
-            System.out.println("Sorted employees:");
-            sortedEmployees.forEach(System.out::println);
 
-            //calcuate bonus
+            //calculate bonus
             System.out.println("Tom's base bonus: " + e1.calculateBonus());
             System.out.println("Tom's increased bonus: " + e1.calculateBonus(1.15));
 
@@ -101,20 +94,99 @@ public class PayrollSystem {
     }
 
     private static void addEmployee() {
+        try {
+            System.out.println("Select employee type: ");
+            System.out.println("1. Full Time");
+            System.out.println("2. Part Time");
 
+            int type = getChoice();
+
+            System.out.println("Enter employee name: ");
+            String name = scanner.nextLine();
+
+            System.out.println("Enter level (JUNIOR, MID, SENIOR): ");
+            EmployeeLevel level = EmployeeLevel.valueOf(scanner.nextLine().toUpperCase());
+
+            System.out.println("Enter base salary: ");
+            double baseSalary = Double.parseDouble(scanner.nextLine());
+
+            if (type == 1) {
+                employeeManager.addEmployees(new FullTimeEmployee(name, level, new Salary(baseSalary, 0)));
+                System.out.println("Full time employee added successfully.");
+            } else if (type == 2) {
+                System.out.println("Enter the hourly rate:");
+                double hourlyRate = Double.parseDouble(scanner.nextLine());
+
+                System.out.println("Enter hours worked: ");
+                int hoursWorked = Integer.parseInt(scanner.nextLine());
+
+                employeeManager.addEmployees(new PartTimeEmployee(name, level, new Salary(0, hourlyRate), hoursWorked));
+                System.out.println("Part time employee added successfully.");
+            } else {
+                System.out.println("Invalid employee type, please try again!");
+            }
+        } catch (Exception ex) {
+            System.out.println("Error adding employee" + ex.getMessage());
+        }
     }
 
     private static void displayAllEmployees() {
+        List<Employee> employees = employeeManager.getEmployees();
 
+        if (employees.isEmpty()) {
+            System.out.println("There are no employees.");
+            return;
+        }
+
+        System.out.println("\n--- Employee List ---\n");
+        employees.forEach(System.out::println);
     }
 
     private static void generatePayslip() {
+        List<PayslipRecord> payslips = employeeManager.generatePayslips();
 
+        if (payslips.isEmpty()) {
+            System.out.println("There are no payslips.");
+            return;
+        }
+
+        System.out.println("\n--- Payslips ---\n");
+        payslips.forEach(p -> System.out.printf(
+                "Employee: %s | Pay: %.2f | Date: %s%n",
+                p.employeeName(), p.payAmount(), p.date()
+        ));
     }
+
     private static void filterEmployeesBySalary() {
+        try {
+            System.out.println("Enter minimum salary: ");
+            double minSalary = Double.parseDouble(scanner.nextLine());
 
+            System.out.println("Enter maximum salary: ");
+            double maxSalary = Double.parseDouble(scanner.nextLine());
+
+            List<Employee> filteredEmployees = employeeManager.filterEmployeesBySalary(minSalary, maxSalary);
+
+            if (filteredEmployees.isEmpty()) {
+                System.out.println("No employees found in the specified salary range.");
+                return;
+            }
+
+            System.out.println("\n--- Filtered employees ---\n");
+            filteredEmployees.forEach(System.out::println);
+        } catch (Exception ex) {
+            System.out.println("Error filtering employees");
+        }
     }
-    private static void sortEmployeesByName() {
 
+    private static void sortEmployeesByName() {
+        List<Employee> sortedEmployees = employeeManager.sortEmployeesByName();
+
+        if (sortedEmployees.isEmpty()) {
+            System.out.println("There are no employees to display.");
+            return;
+        }
+        System.out.println("\n--- Sorted employees ---\n");
+        sortedEmployees.forEach(System.out::println);
     }
 }
